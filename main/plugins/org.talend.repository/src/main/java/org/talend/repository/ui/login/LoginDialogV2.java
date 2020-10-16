@@ -211,7 +211,7 @@ public class LoginDialogV2 extends TrayDialog {
         layout.horizontalSpacing = 0;
         layout.verticalSpacing = 0;
         container.setLayout(layout);
-        container.setBackground(backgroundColor);
+        container.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_GREEN));
         container.setBackgroundMode(SWT.INHERIT_DEFAULT);
 
         createBrandingArea(container);
