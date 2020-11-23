@@ -104,31 +104,8 @@ public class ConnectionFigure extends PolylineConnectionEx implements IMapMode {
             return;
         }
         this.setLineWidth(2);
-        PointList template = new PointList();
-        PolygonDecoration targetDecoration = new DecorationFigure(this, false);
-        targetDecoration.setScale(1, 1);
-        template.addPoint(new Point(-11, -5.5));
-        template.addPoint(new Point(-2, -5.5));
-        template.addPoint(0, -1);
-        template.addPoint(0, 1);
-        template.addPoint(new Point(-2, 5.5));
-        template.addPoint(new Point(-11, 5.5));
-        targetDecoration.setTemplate(template);
-        setTargetDecoration(targetDecoration);
-
-        PolygonDecoration sourceDecoration = new DecorationFigure(this, true);
-        sourceDecoration.setScale(1, 1);
-        template = new PointList();
-
-        template.addPoint(new Point(0, 5.5));
-        template.addPoint(new Point(-9, 5.5));
-        template.addPoint(-11, 1);
-        template.addPoint(-11, -1);
-        template.addPoint(new Point(-9, -5.5));
-        template.addPoint(new Point(0, -5.5));
-
-        sourceDecoration.setTemplate(template);
-        setSourceDecoration(sourceDecoration);
+        this.setTargetDecoration(new PolygonDecoration());
+        this.setSourceDecoration(new PolygonDecoration());
     }
 
     private void initFigureMap() {
@@ -342,12 +319,7 @@ public class ConnectionFigure extends PolylineConnectionEx implements IMapMode {
     }
 
     public void disposeResource() {
-        if ((getSourceDecoration() != null) && (getSourceDecoration() instanceof DecorationFigure)) {
-            ((DecorationFigure) getSourceDecoration()).disposeResource();
-        }
-        if ((getTargetDecoration() != null) && (getTargetDecoration() instanceof DecorationFigure)) {
-            ((DecorationFigure) getTargetDecoration()).disposeResource();
-        }
+
     }
 
     /**
