@@ -12,7 +12,6 @@
 // ============================================================================
 package org.talend.designer.core.generic.utils;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -41,8 +40,6 @@ import org.talend.components.api.component.PropertyPathConnector;
 import org.talend.components.api.properties.ComponentProperties;
 import org.talend.components.api.properties.ComponentReferenceProperties;
 import org.talend.components.api.service.ComponentService;
-import org.talend.core.GlobalServiceRegister;
-import org.talend.core.PluginChecker;
 import org.talend.core.model.components.IComponent;
 import org.talend.core.model.components.IComponentsFactory;
 import org.talend.core.model.components.filters.ComponentsFactoryProviderManager;
@@ -59,7 +56,6 @@ import org.talend.core.model.process.IElementParameterDefaultValue;
 import org.talend.core.model.process.INode;
 import org.talend.core.model.process.INodeConnector;
 import org.talend.core.model.utils.ContextParameterUtils;
-import org.talend.core.runtime.services.IGenericWizardService;
 import org.talend.core.runtime.util.GenericTypeUtils;
 import org.talend.core.ui.component.ComponentsFactoryProvider;
 import org.talend.core.utils.TalendQuoteUtils;
@@ -220,35 +216,11 @@ public class ComponentsUtils {
     }
 
     private static void loadAdditionalJDBCComponents(Set<IComponent> componentsList, Set<ComponentDefinition> compDefinitions) {
-        // restrict additional JDBC for EE
-        if (!PluginChecker.isTIS()) {
+        Map<String, UnifiedJDBCBean> jdbcMap = UnifiedComponentUtil.getAdditionalJDBC();
+        if (jdbcMap.keySet().isEmpty()) {
             return;
         }
-        boolean beanLoad = false;
-        Map<String, UnifiedJDBCBean> additionalJDBCMap = null;
-        Map<String, UnifiedJDBCBean> jdbcMap = UnifiedComponentUtil.getAdditionalJDBC();
         for (ComponentDefinition definition : compDefinitions) {
-            // filter unsupported components
-            if (UnifiedComponentUtil.FILTER_DEFINITION.contains(definition.getName())) {
-                continue;
-            }
-            // load additional JDBC configuration json
-            if (!beanLoad && jdbcMap.isEmpty()) {
-                InputStream inputStream = definition.getClass().getClassLoader().getResourceAsStream("support_extra_db.json");
-                additionalJDBCMap = UnifiedComponentUtil.loadAdditionalJDBC(inputStream);
-                if (additionalJDBCMap.keySet().size() == 0) {
-                    return;
-                }
-                if (GlobalServiceRegister.getDefault().isServiceRegistered(IGenericWizardService.class)) {
-                    IGenericWizardService service = GlobalServiceRegister.getDefault().getService(IGenericWizardService.class);
-                    if (service != null) {
-                        service.initAdditionalJDBCRepositoryObjType();
-                    }
-                }
-
-                beanLoad = true;
-            }
-
             List<String> supportedProducts = definition.getSupportedProducts();
             if (supportedProducts == null) {
                 return;
@@ -261,6 +233,10 @@ public class ComponentsUtils {
                 for (String paletteType : paletteTypes) {
                     for (UnifiedJDBCBean bean : jdbcMap.values()) {
                         try {
+                            // filter unsupported components
+                            if (UnifiedComponentUtil.isUnsupportedComponent(definition.getName(), bean)) {
+                                continue;
+                            }
                             GenericComponent currentComponent = new GenericComponent(definition, paletteType,
                                     definition.getName().replace("JDBC", bean.getComponentKey()));
                             afterCreateComponent(componentsList, currentComponent);
@@ -433,7 +409,8 @@ public class ComponentsUtils {
                 boolean isEnumProperty = EParameterFieldType.CLOSED_LIST.equals(fieldType) && storedValue != null
                         && storedValue instanceof Enum;
                 if (EParameterFieldType.NAME_SELECTION_AREA.equals(fieldType) || EParameterFieldType.JSON_TABLE.equals(fieldType)
-                        || EParameterFieldType.CHECK.equals(fieldType) || isNameProperty || isEnumProperty) {
+                        || EParameterFieldType.CHECK.equals(fieldType) || EParameterFieldType.MAPPING_TYPE.equals(fieldType)
+                        || isNameProperty || isEnumProperty) {
                     // Disable context support for those filed types and name parameter.
                     param.setSupportContext(false);
                 } else {
@@ -984,5 +961,26 @@ public class ComponentsUtils {
             }
         }
 
+    }
+
+    public static NamedThing getNameThingFromComponentPropertiesByName(Properties properties, String name) {
+        if (properties == null || StringUtils.isBlank(name)) {
+            return null;
+        }
+        NamedThing nameThing = null;
+        for (NamedThing thing : properties.getProperties()) {
+            if (name.equals(thing.getName())) {
+                nameThing = thing;
+                break;
+            }
+            if (thing instanceof Properties) {
+                Properties childProperties = (Properties) thing;
+                nameThing = getNameThingFromComponentPropertiesByName(childProperties, name);
+                if (nameThing != null) {
+                    break;
+                }
+            }
+        }
+        return nameThing;
     }
 }
