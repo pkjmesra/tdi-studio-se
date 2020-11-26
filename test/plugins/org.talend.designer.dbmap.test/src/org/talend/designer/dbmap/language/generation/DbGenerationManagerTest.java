@@ -303,7 +303,7 @@ public class DbGenerationManagerTest extends DbGenerationManagerTestHelper {
             tableName = TalendTextUtils.removeQuotes(schema) + ".";
         }
         tableName = TalendTextUtils.removeQuotes(main_table);
-        expectedValue = "\" +((String)globalMap.get(\"#main_table%\"))+ \"";
+        expectedValue = "\"+((String)globalMap.get(\"#main_table%\"))+\"";
         handledTableName = dbManager.getHandledTableName(dbMapComponent, tableName, main_alias);
         Assert.assertEquals(expectedValue, handledTableName);
 
@@ -315,7 +315,7 @@ public class DbGenerationManagerTest extends DbGenerationManagerTestHelper {
             tableName = TalendTextUtils.removeQuotes(schema) + ".";
         }
         tableName = TalendTextUtils.removeQuotes(main_table);
-        expectedValue = "\" +((String)globalMap.get(\"#main_table%\"))+ \"";
+        expectedValue = "\"+((String)globalMap.get(\"#main_table%\"))+\"";
         handledTableName = dbManager.getHandledTableName(dbMapComponent, tableName, main_alias);
         Assert.assertEquals(expectedValue, handledTableName);
 

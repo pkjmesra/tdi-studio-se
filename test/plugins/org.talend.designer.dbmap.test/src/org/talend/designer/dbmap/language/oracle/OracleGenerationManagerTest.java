@@ -207,8 +207,8 @@ public class OracleGenerationManagerTest extends DbGenerationManagerTestHelper {
         // ((String)globalMap.get("tableName")).columnName
         init("", main_table, null, lookup_table, null);
         String expectedQuery = "\"SELECT\n"
-                + "\" +((String)globalMap.get(\"main_table\"))+ \".id, \" +((String)globalMap.get(\"main_table\"))+ \".name,"
-                + " \" +((String)globalMap.get(\"main_table\"))+ \".age, \" +((String)globalMap.get(\"lookup_table\"))+ \".score\n"
+                + "\"+((String)globalMap.get(\"main_table\"))+\".id, \"+((String)globalMap.get(\"main_table\"))+\".name,"
+                + " \"+((String)globalMap.get(\"main_table\"))+\".age, \"+((String)globalMap.get(\"lookup_table\"))+\".score\n"
                 + "FROM\n" + " \" +((String)globalMap.get(\"main_table\"))+ \" , \" +((String)globalMap.get(\"lookup_table\"))";
         OracleGenerationManager oManager = new OracleGenerationManager();
         String query = oManager.buildSqlSelect(dbMapComponent, "grade");
@@ -217,9 +217,9 @@ public class OracleGenerationManagerTest extends DbGenerationManagerTestHelper {
         // schema.((String)globalMap.get("tableName")).columnName
         init(schema, main_table, null, lookup_table, null);
         expectedQuery = "\"SELECT\n"
-                + "\" +((String)globalMap.get(\"schema\"))+ \".\" +((String)globalMap.get(\"main_table\"))+ \".id, \" +((String)globalMap.get(\"schema\"))+ \".\" +((String)globalMap.get(\"main_table\"))+ \".name,"
-                + " \" +((String)globalMap.get(\"schema\"))+ \".\" +((String)globalMap.get(\"main_table\"))+ \".age, \""
-                + " +((String)globalMap.get(\"schema\"))+ \".\" +((String)globalMap.get(\"lookup_table\"))+ \".score\n"
+                + "\"+((String)globalMap.get(\"schema\"))+\".\"+((String)globalMap.get(\"main_table\"))+\".id, \"+((String)globalMap.get(\"schema\"))+\".\"+((String)globalMap.get(\"main_table\"))+\".name,"
+                + " \"+((String)globalMap.get(\"schema\"))+\".\"+((String)globalMap.get(\"main_table\"))+\".age, \""
+                + "+((String)globalMap.get(\"schema\"))+\".\" +((String)globalMap.get(\"lookup_table\"))+\".score\n"
                 + "FROM\n"
                 + " \" +((String)globalMap.get(\"schema\"))+ \".\" +((String)globalMap.get(\"main_table\"))+ \" , \" +((String)globalMap.get(\"schema\"))+ \".\" +((String)globalMap.get(\"lookup_table\"))";
         query = oManager.buildSqlSelect(dbMapComponent, "grade");
@@ -229,9 +229,9 @@ public class OracleGenerationManagerTest extends DbGenerationManagerTestHelper {
         schema = "my_schema";
         init(schema, main_table, null, lookup_table, null);
         expectedQuery = "\"SELECT\n"
-                + "my_schema.\" +((String)globalMap.get(\"main_table\"))+ \".id, my_schema.\" +((String)globalMap.get(\"main_table\"))+ \".name,"
-                + " my_schema.\" +((String)globalMap.get(\"main_table\"))+ \".age,"
-                + " my_schema.\" +((String)globalMap.get(\"lookup_table\"))+ \".score\n"
+                + "my_schema.\"+((String)globalMap.get(\"main_table\"))+\".id, my_schema.\"+((String)globalMap.get(\"main_table\"))+\".name,"
+                + " my_schema.\"+((String)globalMap.get(\"main_table\"))+\".age,"
+                + " my_schema.\"+((String)globalMap.get(\"lookup_table\"))+\".score\n"
                 + "FROM\n"
                 + " my_schema.\" +((String)globalMap.get(\"main_table\"))+ \" , my_schema.\" +((String)globalMap.get(\"lookup_table\"))";
         query = oManager.buildSqlSelect(dbMapComponent, "grade");
@@ -242,9 +242,9 @@ public class OracleGenerationManagerTest extends DbGenerationManagerTestHelper {
         main_table = "main_table";
         init(schema, main_table, null, lookup_table, null);
         expectedQuery = "\"SELECT\n"
-                + "\" +((String)globalMap.get(\"schema\"))+ \".main_table.id, \" +((String)globalMap.get(\"schema\"))+ \".main_table.name,"
-                + " \" +((String)globalMap.get(\"schema\"))+ \".main_table.age, \""
-                + " +((String)globalMap.get(\"schema\"))+ \".\" +((String)globalMap.get(\"lookup_table\"))+ \".score\n"
+                + "\"+((String)globalMap.get(\"schema\"))+\".main_table.id, \"+((String)globalMap.get(\"schema\"))+\".main_table.name,"
+                + " \"+((String)globalMap.get(\"schema\"))+\".main_table.age, \""
+                + "+((String)globalMap.get(\"schema\"))+\".\"+((String)globalMap.get(\"lookup_table\"))+\".score\n"
                 + "FROM\n"
                 + " \" +((String)globalMap.get(\"schema\"))+ \".main_table , \" +((String)globalMap.get(\"schema\"))+ \".\" +((String)globalMap.get(\"lookup_table\"))";
         query = oManager.buildSqlSelect(dbMapComponent, "grade");
@@ -259,8 +259,8 @@ public class OracleGenerationManagerTest extends DbGenerationManagerTestHelper {
         String lookup_table = "((String)globalMap.get(\"@lookup_table-\"))";
         init("", main_table, null, lookup_table, null);
         String expectedQuery = "\"SELECT\n"
-                + "\" +((String)globalMap.get(\"#main_table%\"))+ \".id, \" +((String)globalMap.get(\"#main_table%\"))+ \".name,"
-                + " \" +((String)globalMap.get(\"#main_table%\"))+ \".age, \" +((String)globalMap.get(\"@lookup_table-\"))+ \".score\n"
+                + "\"+((String)globalMap.get(\"#main_table%\"))+\".id, \"+((String)globalMap.get(\"#main_table%\"))+\".name,"
+                + " \"+((String)globalMap.get(\"#main_table%\"))+\".age, \"+((String)globalMap.get(\"@lookup_table-\"))+\".score\n"
                 + "FROM\n"
                 + " \" +((String)globalMap.get(\"#main_table%\"))+ \" , \" +((String)globalMap.get(\"@lookup_table-\"))";
 
@@ -272,8 +272,8 @@ public class OracleGenerationManagerTest extends DbGenerationManagerTestHelper {
         lookup_table = "((String)globalMap.get(\"@lookup+table-\"))";
         init("", main_table, null, lookup_table, null);
         expectedQuery = "\"SELECT\n"
-                + "\" +((String)globalMap.get(\"#main\\*table%\"))+ \".id, \" +((String)globalMap.get(\"#main\\*table%\"))+ \".name,"
-                + " \" +((String)globalMap.get(\"#main\\*table%\"))+ \".age, \" +((String)globalMap.get(\"@lookup+table-\"))+ \".score\n"
+                + "\"+((String)globalMap.get(\"#main\\*table%\"))+\".id, \"+((String)globalMap.get(\"#main\\*table%\"))+\".name,"
+                + " \"+((String)globalMap.get(\"#main\\*table%\"))+\".age, \"+((String)globalMap.get(\"@lookup+table-\"))+\".score\n"
                 + "FROM\n"
                 + " \" +((String)globalMap.get(\"#main\\*table%\"))+ \" , \" +((String)globalMap.get(\"@lookup+table-\"))";
 
@@ -293,7 +293,7 @@ public class OracleGenerationManagerTest extends DbGenerationManagerTestHelper {
         String expectedQuery = "\"SELECT\n"
                 + "main1.id, main1.name, main1.age, lookup1.score\n"
                 + "FROM\n"
-                + " \" +((String)globalMap.get(\"main_table\"))+ \" main1 , \" +((String)globalMap.get(\"lookup_table\"))+ \" lookup1\"";
+                + " \"+((String)globalMap.get(\"main_table\"))+\" main1 , \"+((String)globalMap.get(\"lookup_table\"))+\" lookup1\"";
         OracleGenerationManager manager = new OracleGenerationManager();
         String query = manager.buildSqlSelect(dbMapComponent, "grade");
         assertEquals(expectedQuery, query);
@@ -306,7 +306,7 @@ public class OracleGenerationManagerTest extends DbGenerationManagerTestHelper {
         init(schema, main_table, main_alias, lookup_table, lookup_alias);
         expectedQuery = "\"SELECT\n"
                 + "main_table.id, main_table.name, main_table.age, \""
-                + " +context.schema+ \".\" +((String)globalMap.get(\"lookup_table\"))+ \".score AS score\n"
+                + " +context.schema+ \".\"+((String)globalMap.get(\"lookup_table\"))+\".score AS score\n"
                 + "FROM\n"
                 + " \" +context.schema+\".\"+((String)globalMap.get(\"main_table\"))+((String)globalMap.get(\"main_table1\"))+ \" main_table , \""
                 + " +context.schema+ \".\" +((String)globalMap.get(\"lookup_table\"))";

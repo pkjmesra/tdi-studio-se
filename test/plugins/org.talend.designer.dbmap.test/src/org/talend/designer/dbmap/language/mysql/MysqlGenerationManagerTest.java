@@ -50,8 +50,8 @@ public class MysqlGenerationManagerTest extends DbGenerationManagerTestHelper {
         // ((String)globalMap.get("tableName")).columnName
         init("", main_table, null, lookup_table, null);
         String expectedQuery = "\"SELECT\n"
-                + "\" +((String)globalMap.get(\"main_table\"))+ \".id, \" +((String)globalMap.get(\"main_table\"))+ \".name,"
-                + " \" +((String)globalMap.get(\"main_table\"))+ \".age, \" +((String)globalMap.get(\"lookup_table\"))+ \".score\n"
+                + "\"+((String)globalMap.get(\"main_table\"))+\".id, \"+((String)globalMap.get(\"main_table\"))+\".name,"
+                + " \"+((String)globalMap.get(\"main_table\"))+\".age, \"+((String)globalMap.get(\"lookup_table\"))+\".score\n"
                 + "FROM\n" + " \" +((String)globalMap.get(\"main_table\"))+ \" , \" +((String)globalMap.get(\"lookup_table\"))";
         MysqlGenerationManager manager = new MysqlGenerationManager();
         String query = manager.buildSqlSelect(dbMapComponent, "grade");
@@ -60,9 +60,9 @@ public class MysqlGenerationManagerTest extends DbGenerationManagerTestHelper {
         // schema.((String)globalMap.get("tableName")).columnName
         init(schema, main_table, null, lookup_table, null);
         expectedQuery = "\"SELECT\n"
-                + "\" +((String)globalMap.get(\"schema\"))+ \".\" +((String)globalMap.get(\"main_table\"))+ \".id, \" +((String)globalMap.get(\"schema\"))+ \".\" +((String)globalMap.get(\"main_table\"))+ \".name,"
-                + " \" +((String)globalMap.get(\"schema\"))+ \".\" +((String)globalMap.get(\"main_table\"))+ \".age, \""
-                + " +((String)globalMap.get(\"schema\"))+ \".\" +((String)globalMap.get(\"lookup_table\"))+ \".score\n"
+                + "\"+((String)globalMap.get(\"schema\"))+\".\"+((String)globalMap.get(\"main_table\"))+\".id, \"+((String)globalMap.get(\"schema\"))+\".\"+((String)globalMap.get(\"main_table\"))+\".name,"
+                + " \"+((String)globalMap.get(\"schema\"))+\".\"+((String)globalMap.get(\"main_table\"))+\".age, \""
+                + "+((String)globalMap.get(\"schema\"))+\".\"+((String)globalMap.get(\"lookup_table\"))+\".score\n"
                 + "FROM\n"
                 + " \" +((String)globalMap.get(\"schema\"))+ \".\" +((String)globalMap.get(\"main_table\"))+ \" , \" +((String)globalMap.get(\"schema\"))+ \".\" +((String)globalMap.get(\"lookup_table\"))";
         query = manager.buildSqlSelect(dbMapComponent, "grade");
@@ -72,9 +72,9 @@ public class MysqlGenerationManagerTest extends DbGenerationManagerTestHelper {
         schema = "my_schema";
         init(schema, main_table, null, lookup_table, null);
         expectedQuery = "\"SELECT\n"
-                + "my_schema.\" +((String)globalMap.get(\"main_table\"))+ \".id, my_schema.\" +((String)globalMap.get(\"main_table\"))+ \".name,"
-                + " my_schema.\" +((String)globalMap.get(\"main_table\"))+ \".age,"
-                + " my_schema.\" +((String)globalMap.get(\"lookup_table\"))+ \".score\n"
+                + "my_schema.\"+((String)globalMap.get(\"main_table\"))+\".id, my_schema.\"+((String)globalMap.get(\"main_table\"))+\".name,"
+                + " my_schema.\"+((String)globalMap.get(\"main_table\"))+\".age,"
+                + " my_schema.\"+((String)globalMap.get(\"lookup_table\"))+\".score\n"
                 + "FROM\n"
                 + " my_schema.\" +((String)globalMap.get(\"main_table\"))+ \" , my_schema.\" +((String)globalMap.get(\"lookup_table\"))";
         query = manager.buildSqlSelect(dbMapComponent, "grade");
@@ -85,9 +85,9 @@ public class MysqlGenerationManagerTest extends DbGenerationManagerTestHelper {
         main_table = "main_table";
         init(schema, main_table, null, lookup_table, null);
         expectedQuery = "\"SELECT\n"
-                + "\" +((String)globalMap.get(\"schema\"))+ \".main_table.id, \" +((String)globalMap.get(\"schema\"))+ \".main_table.name,"
-                + " \" +((String)globalMap.get(\"schema\"))+ \".main_table.age, \""
-                + " +((String)globalMap.get(\"schema\"))+ \".\" +((String)globalMap.get(\"lookup_table\"))+ \".score\n"
+                + "\"+((String)globalMap.get(\"schema\"))+\".main_table.id, \"+((String)globalMap.get(\"schema\"))+\".main_table.name,"
+                + " \"+((String)globalMap.get(\"schema\"))+\".main_table.age, \""
+                + "+((String)globalMap.get(\"schema\"))+ \".\"+((String)globalMap.get(\"lookup_table\"))+ \".score\n"
                 + "FROM\n"
                 + " \" +((String)globalMap.get(\"schema\"))+ \".main_table , \" +((String)globalMap.get(\"schema\"))+ \".\" +((String)globalMap.get(\"lookup_table\"))";
         query = manager.buildSqlSelect(dbMapComponent, "grade");
@@ -101,8 +101,8 @@ public class MysqlGenerationManagerTest extends DbGenerationManagerTestHelper {
         String lookup_table = "((String)globalMap.get(\"@lookup_table-\"))";
         init("", main_table, null, lookup_table, null);
         String expectedQuery = "\"SELECT\n"
-                + "\" +((String)globalMap.get(\"#main_table%\"))+ \".id, \" +((String)globalMap.get(\"#main_table%\"))+ \".name,"
-                + " \" +((String)globalMap.get(\"#main_table%\"))+ \".age, \" +((String)globalMap.get(\"@lookup_table-\"))+ \".score\n"
+                + "\"+((String)globalMap.get(\"#main_table%\"))+\".id, \"+((String)globalMap.get(\"#main_table%\"))+\".name,"
+                + " \"+((String)globalMap.get(\"#main_table%\"))+\".age, \"+((String)globalMap.get(\"@lookup_table-\"))+\".score\n"
                 + "FROM\n"
                 + " \" +((String)globalMap.get(\"#main_table%\"))+ \" , \" +((String)globalMap.get(\"@lookup_table-\"))";
         MysqlGenerationManager manager = new MysqlGenerationManager();
@@ -132,7 +132,7 @@ public class MysqlGenerationManagerTest extends DbGenerationManagerTestHelper {
         String lookup_alias = "";
         init(schema, main_table, main_alias, lookup_table, lookup_alias);
         String expectedQuery = "\"SELECT\n"
-                + "main_table.id, main_table.name, main_table.age, \" +((String)globalMap.get(\"lookup_table\"))+ \".score\n"
+                + "main_table.id, main_table.name, main_table.age, \"+((String)globalMap.get(\"lookup_table\"))+\".score\n"
                 + "FROM\n"
                 + " \" +((String)globalMap.get(\"main_table\"))+ \" main_table , \" +((String)globalMap.get(\"lookup_table\"))";
         MysqlGenerationManager manager = new MysqlGenerationManager();
