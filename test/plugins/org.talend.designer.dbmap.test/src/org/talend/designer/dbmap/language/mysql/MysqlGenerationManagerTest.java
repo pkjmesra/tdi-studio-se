@@ -52,7 +52,7 @@ public class MysqlGenerationManagerTest extends DbGenerationManagerTestHelper {
         String expectedQuery = "\"SELECT\n"
                 + "\"+((String)globalMap.get(\"main_table\"))+\".id, \"+((String)globalMap.get(\"main_table\"))+\".name,"
                 + " \"+((String)globalMap.get(\"main_table\"))+\".age, \"+((String)globalMap.get(\"lookup_table\"))+\".score\n"
-                + "FROM\n" + " \" +((String)globalMap.get(\"main_table\"))+ \" , \" +((String)globalMap.get(\"lookup_table\"))";
+                + "FROM\n" + " \"+((String)globalMap.get(\"main_table\"))+\" , \"+((String)globalMap.get(\"lookup_table\"))";
         MysqlGenerationManager manager = new MysqlGenerationManager();
         String query = manager.buildSqlSelect(dbMapComponent, "grade");
         assertEquals(expectedQuery, query);
@@ -64,7 +64,7 @@ public class MysqlGenerationManagerTest extends DbGenerationManagerTestHelper {
                 + " \"+((String)globalMap.get(\"schema\"))+\".\"+((String)globalMap.get(\"main_table\"))+\".age, \""
                 + "+((String)globalMap.get(\"schema\"))+\".\"+((String)globalMap.get(\"lookup_table\"))+\".score\n"
                 + "FROM\n"
-                + " \" +((String)globalMap.get(\"schema\"))+ \".\" +((String)globalMap.get(\"main_table\"))+ \" , \" +((String)globalMap.get(\"schema\"))+ \".\" +((String)globalMap.get(\"lookup_table\"))";
+                + " \"+((String)globalMap.get(\"schema\"))+\".\"+((String)globalMap.get(\"main_table\"))+\" , \"+((String)globalMap.get(\"schema\"))+\".\"+((String)globalMap.get(\"lookup_table\"))";
         query = manager.buildSqlSelect(dbMapComponent, "grade");
         assertEquals(expectedQuery, query);
 
@@ -76,7 +76,7 @@ public class MysqlGenerationManagerTest extends DbGenerationManagerTestHelper {
                 + " my_schema.\"+((String)globalMap.get(\"main_table\"))+\".age,"
                 + " my_schema.\"+((String)globalMap.get(\"lookup_table\"))+\".score\n"
                 + "FROM\n"
-                + " my_schema.\" +((String)globalMap.get(\"main_table\"))+ \" , my_schema.\" +((String)globalMap.get(\"lookup_table\"))";
+                + " my_schema.\"+((String)globalMap.get(\"main_table\"))+\" , my_schema.\"+((String)globalMap.get(\"lookup_table\"))";
         query = manager.buildSqlSelect(dbMapComponent, "grade");
         assertEquals(expectedQuery, query);
 
@@ -89,7 +89,7 @@ public class MysqlGenerationManagerTest extends DbGenerationManagerTestHelper {
                 + " \"+((String)globalMap.get(\"schema\"))+\".main_table.age, \""
                 + "+((String)globalMap.get(\"schema\"))+ \".\"+((String)globalMap.get(\"lookup_table\"))+ \".score\n"
                 + "FROM\n"
-                + " \" +((String)globalMap.get(\"schema\"))+ \".main_table , \" +((String)globalMap.get(\"schema\"))+ \".\" +((String)globalMap.get(\"lookup_table\"))";
+                + " \"+((String)globalMap.get(\"schema\"))+\".main_table , \"+((String)globalMap.get(\"schema\"))+\".\"+((String)globalMap.get(\"lookup_table\"))";
         query = manager.buildSqlSelect(dbMapComponent, "grade");
         assertEquals(expectedQuery, query);
     }
@@ -104,7 +104,7 @@ public class MysqlGenerationManagerTest extends DbGenerationManagerTestHelper {
                 + "\"+((String)globalMap.get(\"#main_table%\"))+\".id, \"+((String)globalMap.get(\"#main_table%\"))+\".name,"
                 + " \"+((String)globalMap.get(\"#main_table%\"))+\".age, \"+((String)globalMap.get(\"@lookup_table-\"))+\".score\n"
                 + "FROM\n"
-                + " \" +((String)globalMap.get(\"#main_table%\"))+ \" , \" +((String)globalMap.get(\"@lookup_table-\"))";
+                + " \"+((String)globalMap.get(\"#main_table%\"))+\" , \"+((String)globalMap.get(\"@lookup_table-\"))";
         MysqlGenerationManager manager = new MysqlGenerationManager();
         String query = manager.buildSqlSelect(dbMapComponent, "grade");
         assertEquals(expectedQuery, query);
@@ -116,7 +116,7 @@ public class MysqlGenerationManagerTest extends DbGenerationManagerTestHelper {
                 + "\" +((String)globalMap.get(\"#main\\table)\"))+ \".id, \" +((String)globalMap.get(\"#main\\table)\"))+ \".name,"
                 + " \" +((String)globalMap.get(\"#main\\table)\"))+ \".age, \" +((String)globalMap.get(\"@lookup\\\\table*\"))+ \".score\n"
                 + "FROM\n"
-                + " \" +((String)globalMap.get(\"#main\\table)\"))+ \" , \" +((String)globalMap.get(\"@lookup\\\\table*\"))";
+                + " \"+((String)globalMap.get(\"#main\\table)\"))+\" , \"+((String)globalMap.get(\"@lookup\\\\table*\"))";
         manager = new MysqlGenerationManager();
         query = manager.buildSqlSelect(dbMapComponent, "grade");
         assertEquals(expectedQuery, query);
@@ -134,7 +134,7 @@ public class MysqlGenerationManagerTest extends DbGenerationManagerTestHelper {
         String expectedQuery = "\"SELECT\n"
                 + "main_table.id, main_table.name, main_table.age, \"+((String)globalMap.get(\"lookup_table\"))+\".score\n"
                 + "FROM\n"
-                + " \" +((String)globalMap.get(\"main_table\"))+ \" main_table , \" +((String)globalMap.get(\"lookup_table\"))";
+                + " \"+((String)globalMap.get(\"main_table\"))+\" main_table , \"+((String)globalMap.get(\"lookup_table\"))";
         MysqlGenerationManager manager = new MysqlGenerationManager();
         String query = manager.buildSqlSelect(dbMapComponent, "grade");
         assertEquals(expectedQuery, query);
@@ -147,7 +147,7 @@ public class MysqlGenerationManagerTest extends DbGenerationManagerTestHelper {
         expectedQuery = "\"SELECT\n"
                 + "main_table.id, main_table.name, main_table.age, lookup_table.score\n"
                 + "FROM\n"
-                + " \" +((String)globalMap.get(\"main_table\"))+context.main_table+ \" main_table , \" +((String)globalMap.get(\"lookup_table\"))+ \" lookup_table\"";
+                + " \"+((String)globalMap.get(\"main_table\"))+context.main_table+ \" main_table , \"+((String)globalMap.get(\"lookup_table\"))+\" lookup_table\"";
         manager = new MysqlGenerationManager();
         query = manager.buildSqlSelect(dbMapComponent, "grade");
         assertEquals(expectedQuery, query);
