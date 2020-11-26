@@ -21,6 +21,7 @@ import org.talend.commons.exception.ExceptionHandler;
 import org.talend.commons.exception.PersistenceException;
 import org.talend.core.model.migration.AbstractJobMigrationTask;
 import org.talend.core.model.properties.Item;
+import org.talend.core.model.properties.impl.AdditionalInfoMapImpl;
 import org.talend.core.model.repository.ERepositoryObjectType;
 import org.talend.core.repository.model.ProxyRepositoryFactory;
 import org.talend.designer.core.model.utils.emf.talendfile.ElementParameterType;
@@ -58,9 +59,15 @@ public class SetDatasetCheckBoxGlobalOption extends AbstractJobMigrationTask {
         if (processType == null) {
             return ExecutionResult.NOTHING_TO_DO;
         }
-
+        List<AdditionalInfoMapImpl> properties = item.getProperty().getAdditionalProperties();
+        String talendVersionUsedToCreateJob = null;
+        for (AdditionalInfoMapImpl property : properties) {
+        	if ("created_product_version".equals(property.getKey().toString())) {
+        		talendVersionUsedToCreateJob = property.getValue().toString();
+        	}
+        }
         try {
-    		setGlobalOption(processType, item);
+    		setGlobalOption(processType, item, talendVersionUsedToCreateJob);
             return ExecutionResult.SUCCESS_NO_ALERT;
         } catch (Exception e) {
             ExceptionHandler.process(e);
@@ -68,13 +75,15 @@ public class SetDatasetCheckBoxGlobalOption extends AbstractJobMigrationTask {
         }
     }
     
-    private void setGlobalOption(ProcessType processType, Item item) throws PersistenceException {
+    private void setGlobalOption(ProcessType processType, Item item, String talendStudioVersion) throws PersistenceException {
     	ElementParameterType property = TalendFileFactory.eINSTANCE.createElementParameterType();
         property.setName(CHECKBOX_DATASET); //$NON-NLS-1$
         property.setField("CHECK"); //$NON-NLS-1$
         property.setValue("false"); //$NON-NLS-1$
         boolean isParameterAlreadyAdded = processType.getParameters().getElementParameter().stream().anyMatch(x -> "USE_DATASET_API".equals(((ElementParameterTypeImpl) x).getName()));
-        if (!isParameterAlreadyAdded) processType.getParameters().getElementParameter().add(property);
+        if (!isParameterAlreadyAdded && !talendStudioVersion.startsWith("7.3.1") && !talendStudioVersion.startsWith("7.4.1")) {
+        	processType.getParameters().getElementParameter().add(property);
+        }
     	ProxyRepositoryFactory factory = ProxyRepositoryFactory.getInstance();
         factory.save(item, true);
     }
