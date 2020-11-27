@@ -957,12 +957,13 @@ public abstract class DbGenerationManager {
         for (String globalMapStr : globalMapList) {
             String regex = parser.getGlobalMapExpressionRegex(globalMapStr);
             String replacement = parser.getGlobalMapReplacement(globalMapStr);
-            String newExpression = "\"+" + replacement + "+\""; //$NON-NLS-1$ //$NON-NLS-2$
-            if (expression.equals(newExpression)) {
+            int i = expression.indexOf("+");//$NON-NLS-1$
+            int j = expression.lastIndexOf("+");//$NON-NLS-1$
+            if (i > -1 && j > -1 && i != j) {
                 return expression;
             }
             expression = TalendQuoteUtils.removeQuotesIfExist(expression);
-            expression = expression.replaceAll(regex, newExpression);
+            expression = expression.replaceAll(regex, "\" +" + replacement + "+ \"");//$NON-NLS-1$ //$NON-NLS-2$
         }
         return expression;
     }
